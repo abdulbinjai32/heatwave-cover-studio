@@ -1,5 +1,1 @@
-[
-  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
-]
+[{"h": 720, "name": "1-cover.jpg", "query": "?shot=cover&photos=hero,face,neon,boats,deco,skyline&caption=HEATWAVE&subtitle=Neon%20Tide&layout=classic&grade=sunset&w=1280&h=720", "w": 1280}, {"h": 720, "name": "2-editor.jpg", "query": "?shot=editor&photos=hero,face,neon,boats,deco,skyline&caption=HEATWAVE", "w": 1280}, {"h": 1280, "name": "3-cover-portrait.jpg", "query": "?shot=cover&photos=hero,face,neon,boats,deco,skyline&caption=VICE%20TIDE&subtitle=Ocean%20Drive&layout=tower&grade=sunset&w=1024&h=1280", "w": 1024}, {"h": 1080, "name": "4-cover-square.jpg", "query": "?shot=cover&photos=hero,face,neon,boats,deco,skyline&caption=NEON%20HEAT&subtitle=After%20Dark&layout=quintet&grade=neon&w=1080&h=1080", "w": 1080}]

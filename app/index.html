@@ -3,21 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>HEATWAVE Cover Studio</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
-  </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
-</main>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-scroll">
+      <header class="brand">
+        <h1>HEATWAVE</h1>
+        <p>COVER STUDIO · GTA-STYLE COLLAGE MAKER</p>
+      </header>
+
+      <section class="group">
+        <h2>Photos <button id="add-photos" type="button" class="btn mini">+ Add</button></h2>
+        <input id="file-input" type="file" accept="image/*" multiple hidden>
+        <div id="photo-strip" class="photo-strip" aria-label="Photo strip"></div>
+        <p class="note">Click a photo to fill the selected panel (or all panels). Drop images anywhere.</p>
+      </section>
+
+      <section class="group">
+        <h2>Layout</h2>
+        <div id="layout-picker" class="layout-picker"></div>
+      </section>
+
+      <section class="group">
+        <h2>Colour grade</h2>
+        <div id="grade-picker" class="grade-picker"></div>
+        <label class="slider">Intensity
+          <input id="intensity" type="range" min="0" max="100" value="88">
+          <output id="intensity-val">88</output>
+        </label>
+        <label class="inline">Gutters
+          <select id="gutter">
+            <option value="white">White</option>
+            <option value="black">Black + keyline</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="group">
+        <h2>Lettering</h2>
+        <label class="field">Caption
+          <input id="caption" type="text" maxlength="28" value="HEATWAVE" autocomplete="off">
+        </label>
+        <label class="field">Script subtitle
+          <input id="subtitle" type="text" maxlength="32" value="Neon Tide" autocomplete="off">
+        </label>
+        <label class="field">Tagline band
+          <input id="tagline" type="text" maxlength="60" value="SUNSET STRIP · NEON NIGHTS · OPEN ROAD" autocomplete="off">
+        </label>
+        <label class="field">Press quote
+          <input id="quote" type="text" maxlength="70" value="“A LOVE LETTER TO THE COAST” — COAST WEEKLY" autocomplete="off">
+        </label>
+        <label class="slider">Title size
+          <input id="title-scale" type="range" min="60" max="150" value="100">
+          <output id="title-scale-val">100%</output>
+        </label>
+        <label class="slider">Title tilt
+          <input id="title-tilt" type="range" min="-80" max="40" value="-25">
+          <output id="title-tilt-val">-2.5°</output>
+        </label>
+        <label class="slider">Title height
+          <input id="title-y" type="range" min="60" max="84" value="72">
+          <output id="title-y-val">72%</output>
+        </label>
+      </section>
+
+      <section class="group">
+        <h2>Packaging</h2>
+        <div class="toggles">
+          <label class="toggle"><input id="f-quote" type="checkbox" checked><span>Press quote</span></label>
+          <label class="toggle"><input id="f-seal" type="checkbox" checked><span>Starburst seal</span></label>
+          <label class="toggle"><input id="f-heat" type="checkbox"><span>HEAT chip</span></label>
+          <label class="toggle"><input id="f-ticket" type="checkbox" checked><span>VOL. 06 ticket</span></label>
+          <label class="toggle"><input id="f-band" type="checkbox" checked><span>Tagline band</span></label>
+          <label class="toggle"><input id="f-footer" type="checkbox" checked><span>Catalog footer</span></label>
+        </div>
+      </section>
+
+      <section class="group">
+        <h2>Selected panel</h2>
+        <div id="panel-box" class="panel-box idle">
+          <p id="panel-label" class="note">Click a panel in the preview to select it</p>
+          <label class="slider">Zoom
+            <input id="panel-zoom" type="range" min="100" max="300" value="100" disabled>
+            <output id="panel-zoom-val">1.00x</output>
+          </label>
+          <div class="row">
+            <button id="panel-reset" type="button" class="btn ghost" disabled>Reset crop</button>
+            <button id="fill-all" type="button" class="btn ghost" disabled>Fill all panels</button>
+            <button id="panel-deselect" type="button" class="btn ghost">Deselect</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="export-bar">
+      <div class="export-head">
+        <h2>Export PNG</h2>
+        <div class="shape-tabs" role="tablist" aria-label="Preview shape">
+          <button type="button" class="shape-tab active" data-shape="landscape">16:9</button>
+          <button type="button" class="shape-tab" data-shape="square">1:1</button>
+          <button type="button" class="shape-tab" data-shape="portrait">4:5</button>
+        </div>
+      </div>
+      <div class="export-row">
+        <button id="export-square" type="button" class="btn export">1080 × 1080</button>
+        <button id="export-portrait" type="button" class="btn export">1080 × 1350</button>
+        <button id="export-landscape" type="button" class="btn export">1920 × 1080</button>
+      </div>
+      <p id="status" class="note" role="status"></p>
+    </footer>
+  </aside>
+
+  <main class="stage">
+    <canvas id="cover" width="1280" height="720" aria-label="Live cover preview"></canvas>
+    <p class="hint">Click a panel to select it · drag inside a panel to pan · scroll to zoom · every edit repaints live</p>
+  </main>
+</div>
+
+<div id="drop-overlay" class="drop-overlay"><div>Drop photos to load them — they stay on this device</div></div>
+
+<noscript><p class="note">HEATWAVE Cover Studio needs JavaScript (it draws everything locally with Canvas 2D).</p></noscript>
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
